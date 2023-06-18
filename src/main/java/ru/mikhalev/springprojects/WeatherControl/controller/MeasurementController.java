@@ -29,4 +29,12 @@ public class MeasurementController {
         log.info(measurement.toString());
         return new ResponseMessage("Measurement will be get on controller", LocalDateTime.now());
     }
+
+    public void validateRequest(MeasurementDTO measurement,BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+
+        }
+
+
+    }
 }

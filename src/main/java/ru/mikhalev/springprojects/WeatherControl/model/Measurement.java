@@ -2,6 +2,8 @@ package ru.mikhalev.springprojects.WeatherControl.model;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 /**
  * @author Ivan Mikhalev
  */
@@ -14,5 +16,6 @@ import lombok.*;
 public class Measurement {
     private double value;
     private boolean isRaining;
-    private Sensor name;
+    private Sensor sensor;
+    private LocalDateTime addingTime;
 }

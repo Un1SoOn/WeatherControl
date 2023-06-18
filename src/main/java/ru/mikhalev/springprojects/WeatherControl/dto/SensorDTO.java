@@ -14,7 +14,7 @@ import lombok.*;
 @ToString
 public class SensorDTO {
 
-    @NotNull(message = "Название сенсора не может быть пустым")
-    @Size(min = 3, max = 30, message = "Название сенсора должно быть в пределах от 3 до 30 символов")
+    @NotNull(message = "Sensor name must not be null")
+    @Size(min = 3, max = 30, message = "Sensor name must be between 3 and 30 symbols")
     private String name;
 }

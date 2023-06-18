@@ -18,7 +18,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SensorService implements SensorServiceApi {
+public class SensorServiceImpl implements SensorServiceApi {
     private final JdbcTemplate jdbcTemplate;
 
     @Override
