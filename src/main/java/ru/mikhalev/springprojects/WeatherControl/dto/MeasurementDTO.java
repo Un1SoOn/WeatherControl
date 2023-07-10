@@ -21,7 +21,7 @@ public class MeasurementDTO {
     private double value;
 
     @NotNull(message = "Is raining value must be true or false")
-    private boolean isRaining;
+    private boolean raining;
 
     @NotNull(message = "Entered sensor must not be null")
     private Sensor sensor;

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.mikhalev.springprojects.WeatherControl.controller.api.MeasurementControllerApi;
 import ru.mikhalev.springprojects.WeatherControl.dto.MeasurementDTO;
 import ru.mikhalev.springprojects.WeatherControl.model.Measurement;
 import ru.mikhalev.springprojects.WeatherControl.service.api.MeasurementServiceApi;
@@ -24,7 +25,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/measurements")
 @RequiredArgsConstructor
-public class MeasurementController {
+public class MeasurementController implements MeasurementControllerApi {
 
     private final MeasurementValidator measurementValidator;
     private final MeasurementServiceApi measurementService;
@@ -42,6 +43,27 @@ public class MeasurementController {
         Measurement measurement = measurementMapper.mapDtoToMeasurement(measurementDTO);
 
         measurementService.addMeasurement(measurement);
+
         return new ResponseMessage("Measurement will be add in database", LocalDateTime.now());
+    }
+
+    @GetMapping()
+    public List<Measurement> getMeasurements() {
+        List<Measurement> measurements = measurementService.getMeasurements();
+        log.info(measurements.toString());
+        return measurements;
+    }
+
+    @Override
+    public List<Measurement> getMeasurements(@RequestParam(value = "sensorName") String sensorName) {
+        sensorService.checkSensorInDB(sensorName);
+
+        return measurementService.getMeasurements(sensorName);
+    }
+
+    @Override
+    @GetMapping("/rainyDaysCount")
+    public String getCountRainyDays() {
+        return "Count rainy days is: " + measurementService.getCountRainyDays();
     }
 }

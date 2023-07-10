@@ -16,7 +16,7 @@ public class MeasurementMapper {
     public Measurement mapDtoToMeasurement(MeasurementDTO measurementDTO) {
         return Measurement.builder()
                 .temperature(measurementDTO.getValue())
-                .isRaining(measurementDTO.isRaining())
+                .raining(measurementDTO.isRaining())
                 .sensor(measurementDTO.getSensor())
                 .addingTime(LocalDateTime.now())
                 .build();
