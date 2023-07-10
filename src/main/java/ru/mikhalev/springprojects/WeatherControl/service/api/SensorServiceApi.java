@@ -16,4 +16,7 @@ public interface SensorServiceApi {
     void registrationSensor(Sensor sensor);
 
     Optional<Sensor> getAllSensors(String sensorName);
+
+    void checkSensorInDB(Sensor sensor);
+    void checkSensorInDB(String sensorName);
 }

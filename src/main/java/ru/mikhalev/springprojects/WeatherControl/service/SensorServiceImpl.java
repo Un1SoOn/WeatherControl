@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.mikhalev.springprojects.WeatherControl.model.Sensor;
 import ru.mikhalev.springprojects.WeatherControl.service.api.SensorServiceApi;
 import ru.mikhalev.springprojects.WeatherControl.util.exception.SensorIsAlreadyDefinedInDatabase;
+import ru.mikhalev.springprojects.WeatherControl.util.exception.SensorIsNotDefinedInDatabase;
 
 import java.util.Optional;
 
@@ -35,11 +36,22 @@ public class SensorServiceImpl implements SensorServiceApi {
                 new BeanPropertyRowMapper<>(Sensor.class)).stream().findAny();
     }
 
+    @Override
     public void checkSensorInDB(Sensor sensor) {
         Optional<Sensor> sensors = getAllSensors(sensor.getName());
 
         if(sensors.isPresent()) {
             throw new SensorIsAlreadyDefinedInDatabase();
+        }
+    }
+
+    @Override
+    public void checkSensorInDB(String sensorName) {
+        Optional<Sensor> sensors = getAllSensors(sensorName);
+
+        if(sensors.isPresent()) {
+        } else {
+            throw new SensorIsNotDefinedInDatabase();
         }
     }
 }

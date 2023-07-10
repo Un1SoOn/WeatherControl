@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @ToString
 @Builder
 public class Measurement {
-    private double value;
+    private double temperature;
     private boolean isRaining;
     private Sensor sensor;
     private LocalDateTime addingTime;

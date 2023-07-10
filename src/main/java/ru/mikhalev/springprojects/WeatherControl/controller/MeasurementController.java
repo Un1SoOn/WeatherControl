@@ -4,14 +4,17 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.mikhalev.springprojects.WeatherControl.dto.MeasurementDTO;
+import ru.mikhalev.springprojects.WeatherControl.model.Measurement;
+import ru.mikhalev.springprojects.WeatherControl.service.api.MeasurementServiceApi;
+import ru.mikhalev.springprojects.WeatherControl.service.api.SensorServiceApi;
+import ru.mikhalev.springprojects.WeatherControl.util.MeasurementMapper;
+import ru.mikhalev.springprojects.WeatherControl.util.MeasurementValidator;
 import ru.mikhalev.springprojects.WeatherControl.util.ResponseMessage;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author Ivan Mikhalev
@@ -23,18 +26,22 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class MeasurementController {
 
+    private final MeasurementValidator measurementValidator;
+    private final MeasurementServiceApi measurementService;
+    private final MeasurementMapper measurementMapper;
+    private final SensorServiceApi sensorService;
+
     @PostMapping("/add")
-    public ResponseMessage addMeasurement(@RequestBody @Valid MeasurementDTO measurement,
+    public ResponseMessage addMeasurement(@RequestBody @Valid MeasurementDTO measurementDTO,
                                           BindingResult bindingResult) {
-        log.info(measurement.toString());
-        return new ResponseMessage("Measurement will be get on controller", LocalDateTime.now());
-    }
+        measurementValidator.validateRequestedMeasurement(bindingResult);
+        sensorService.checkSensorInDB(measurementDTO.getSensor().getName());
 
-    public void validateRequest(MeasurementDTO measurement,BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
+        log.info(measurementDTO.toString());
 
-        }
+        Measurement measurement = measurementMapper.mapDtoToMeasurement(measurementDTO);
 
-
+        measurementService.addMeasurement(measurement);
+        return new ResponseMessage("Measurement will be add in database", LocalDateTime.now());
     }
 }

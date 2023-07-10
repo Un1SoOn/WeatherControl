@@ -4,9 +4,10 @@ package ru.mikhalev.springprojects.WeatherControl.util.exception;
  * @author Ivan Mikhalev
  */
 
-public class SensorIsAlreadyDefinedInDatabase extends RuntimeException {
+public class SensorIsNotDefinedInDatabase extends RuntimeException {
+
     @Override
     public String getMessage() {
-        return "Error! Sensor with this name already added in database";
+        return "Sensor with entered name not defined in database";
     }
 }
